@@ -1,37 +1,77 @@
 ﻿## 简介
 
-ThinkPHP 是一个免费开源的，快速、简单的面向对象的 轻量级PHP开发框架 ，创立于2006年初，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，也注重易用性。并且拥有众多的原创功能和特性，在社区团队的积极参与下，在易用性、扩展性和性能方面不断优化和改进，已经成长为国内最领先和最具影响力的WEB应用开发框架，众多的典型案例确保可以稳定用于商业以及门户级的开发。
+ThinkUcenter 是面向康盛论坛Discuz的Ucenter通信一套API,实现模块级应用配置。项目作者[吾爱](http://ekan001.com)
 
-## 全面的WEB开发特性支持
+## 版本说明
 
-最新的ThinkPHP为WEB应用开发提供了强有力的支持，这些支持包括：
+本接口支持ThinkPHP3.2与Ucenter1.6版本：
 
-*  MVC支持-基于多层模型（M）、视图（V）、控制器（C）的设计模式
-*  ORM支持-提供了全功能和高性能的ORM支持，支持大部分数据库
-*  模板引擎支持-内置了高性能的基于标签库和XML标签的编译型模板引擎
-*  RESTFul支持-通过REST控制器扩展提供了RESTFul支持，为你打造全新的URL设计和访问体验
-*  云平台支持-提供了对新浪SAE平台和百度BAE平台的强力支持，具备“横跨性”和“平滑性”，支持本地化开发和调试以及部署切换，让你轻松过渡，打造全新的开发体验。
-*  CLI支持-支持基于命令行的应用开发
-*  RPC支持-提供包括PHPRpc、HProse、jsonRPC和Yar在内远程调用解决方案
-*  MongoDb支持-提供NoSQL的支持
-*  缓存支持-提供了包括文件、数据库、Memcache、Xcache、Redis等多种类型的缓存支持
+## 注册应用
 
-## 大道至简的开发理念
+可根据项目示例注册应用，具体步骤：
+1) 复制Ucenter目录到你的Application目录作为Ucenter模块
+2) 以Home模块为例，创建控制器 Home\Controller\ApiController,控制器继承 Ucenter\Api\Uc 类；创建：
+index动作方法，该方法用于响应UC通信 ，方法实现如下：
+```Php
+public function index(){
+    $this->response();
+}
+```
+3) 整个 ApiController 源码如下：
+```Php
+<?php
+namespace Home\Controller;
+use Ucenter\Api\Uc;
 
-ThinkPHP从诞生以来一直秉承大道至简的开发理念，无论从底层实现还是应用开发，我们都倡导用最少的代码完成相同的功能，正是由于对简单的执着和代码的修炼，让我们长期保持出色的性能和极速的开发体验。在主流PHP开发框架的评测数据中表现卓越，简单和快速开发是我们不变的宗旨。
+class ApiController extends Uc {
+	function index(){
+        $this->response();
+    }
+}
+?>
+```
+4) 到论坛添加应用,登录论坛的Ucenter,在应用管理 > 添加应用
 
-## 安全性
+应用的主URL: http://localhost/Home
+通信秘钥：
+应用接口文件名称：index
 
-框架在系统层面提供了众多的安全特性，确保你的网站和产品安全无忧。这些特性包括：
+5) 应用创建成功后，拷贝配置代码到Application/Home/conf/uc.php中,到这里应该可以看到通信正常。
 
-*  XSS安全防护
-*  表单自动验证
-*  强制数据类型转换
-*  输入数据过滤
-*  表单令牌验证
-*  防SQL注入
-*  图像上传检测
+## 同步登录
 
-## 商业友好的开源协议
+uc_client所有api请参考[ucenter手册](http://www.discuz.net/forum.php?mod=attachment&aid=MjM5MjUzfDdkYjg2ODVjfDE0NDYwMTEyNjN8MzA4NTQyfDg3OTIzNw%3D%3D) ，你所要做的就是在项目中实例化 Ucenter\client\client 类，通过类调用接口函数，如下：：
+```php
+<?php
+namespace Home\Controller; 
+class PublicController extends \Think\Controller{
+    function login(){
+        $uc = new \Ucenter\Client\Client();
+        $re = $uc->uc_user_login("username", "password");
+        //dump($re);
+    }
+}
+?>
+```
 
-ThinkPHP遵循Apache2开源协议发布。Apache Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再作为开源或商业软件发布。
+
+## 同步注册
+参考同步登录，调用注册函数，如下：
+```php
+<?php
+namespace Home\Controller; 
+class PublicController extends \Think\Controller{
+    function login(){
+        $uc = new \Ucenter\Client\Client();
+        $re = $ucenter->uc_user_register($username,$password, $email);
+        //dump($re);
+    }
+}
+?>
+```
+
+## 实现模块的UC通信响应
+
+这部分尚未完善，但是你完全可以自行开发，一些基本的响应方法会逐步添加到Uc类里，请留意更新，后面也会逐步添加一些简单的开发说明，但还是建议读者自己分析ucenter包里的api/uc.php，结合本模块中的 Uc.class.php 尝试自行在ApiController里实现
+
+当你需要接收同步登录等请求时，你需要在上面的Api类中添加对应的事件动作，动作方法命名请参考康盛UCenter压缩包里的手册， API接口一节。

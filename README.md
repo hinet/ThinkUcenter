@@ -8,7 +8,8 @@ ThinkUcenter 是面向康盛论坛Discuz的Ucenter通信一套API,实现模块�
 
 ## 注册应用
 
-可根据项目示例注册应用，具体步骤：
+可根据项目示例注册应用，具体步骤：   
+
 1) 复制Ucenter目录到你的Application目录作为Ucenter模块   
 
 2) 以Home模块为例，创建控制器 Home\Controller\ApiController,控制器继承 Ucenter\Api\Uc 类；创建：

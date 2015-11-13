@@ -38,7 +38,7 @@ class ApiController extends Uc {
 通信秘钥：
 应用接口文件名称：index
 
-5) 应用创建成功后，拷贝配置代码到Application/Home/conf/uc.php中,到这里应该可以看到通信正常。
+5) 应用创建成功后，拷贝配置代码到Application/Common/conf/uc.php中,到这里应该可以看到通信正常。
 
 ## 同步登录
 

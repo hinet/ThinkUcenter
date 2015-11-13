@@ -7,9 +7,9 @@ class Client{
     }
     //加载配置
     public function initConfig(){
-        require_cache(MODULE_PATH."Conf/uc.php");
+        require_cache(COMMON_PATH."Conf/uc.php");
         if(!defined('UC_API')) {
-            E('未发现uc配置文件，请确定配置文件位于'.MODULE_PATH."Conf/uc.php");
+            E('未发现uc配置文件，请确定配置文件位于'.COMMON_PATH."Conf/uc.php");
         }
     }
     

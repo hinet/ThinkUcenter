@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hinet/ThinkUcenter.svg?branch=master)](https://travis-ci.org/hinet/ThinkUcenter)
 ﻿## 简介
 
 ThinkUcenter 是面向康盛论坛Discuz的Ucenter通信一套API,实现模块级应用配置。项目作者[吾爱](http://ekan001.com)
